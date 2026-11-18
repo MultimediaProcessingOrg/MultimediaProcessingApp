@@ -6,8 +6,9 @@ Aplikacja webowa do transkodowania plików multimedialnych (wideo/audio).
 
 - Backend: Django 5 + DRF
 - Frontend: React 18 + Vite 5 + Tailwind
-- Kolejka: Celery + Redis
+- Kolejka zadań: Celery + Redis
 - DB: PostgreSQL 16
+- Obliczenia: FastAPI + FFmpeg
 
 ## Wymagania
 
@@ -23,8 +24,13 @@ Aplikacja webowa do transkodowania plików multimedialnych (wideo/audio).
 
 ## Struktura
 
-- `backend/` - Django REST API
-- `worker/` - Usługa obliczeniowa FFmpeg
+- `backend/` - Django REST API (modele, widoki, serializery)
+- `worker/` - Celery worker + FastAPI (FFmpeg)
 - `frontend/` - React SPA
 - `docs/` - Dokumentacja
 - `scripts/` - Skrypty pomocnicze
+
+## Role użytkowników
+
+- ADMIN - pełny dostęp
+- USER - własne zasoby
