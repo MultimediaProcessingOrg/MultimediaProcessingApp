@@ -15,9 +15,16 @@ Aplikacja webowa do transkodowania plików multimedialnych (wideo/audio).
 - Node 18+
 - Docker + Docker Compose
 
-## Uruchomienie
+## Konfiguracja
 
-```bash
-cp .env.example .env
-docker compose up
-```
+1. Skopiuj `.env.example` do `.env`.
+2. Ustaw `SECRET_KEY`, `POSTGRES_PASSWORD`, `INTERNAL_SHARED_TOKEN`.
+3. Uruchom `docker compose up`.
+
+## Struktura
+
+- `backend/` - Django REST API
+- `worker/` - Usługa obliczeniowa FFmpeg
+- `frontend/` - React SPA
+- `docs/` - Dokumentacja
+- `scripts/` - Skrypty pomocnicze
