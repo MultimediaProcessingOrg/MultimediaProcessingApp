@@ -2,8 +2,6 @@ services:
   postgres:
     image: postgres:16
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-media_converter}
       POSTGRES_USER: ${POSTGRES_USER:-media}
@@ -11,11 +9,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-media} -d ${POSTGRES_DB:-media_converter}",
-        ]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-media} -d ${POSTGRES_DB:-media_converter}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,21 +26,21 @@ services:
       timeout: 5s
       retries: 5
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   restart: unless-stopped
-  #   env_file: .env
-  #   command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 2
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   volumes:
-  #     - mediaVolume:/app/media
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    env_file: .env
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 2
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - mediaVolume:/app/media
 
 volumes:
   pgdata:
